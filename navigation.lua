@@ -31,6 +31,7 @@ unlockGesture = "thumbToPinky"
 switchSpaceRightGesture = "waveOut"
 switchSpaceLeftGesture = "waveIn"
 missionControlGesture = "fingersSpread"
+mouseControlGesture = "fist"
 
 function onActiveChange(isActive)
 	if isActive then
@@ -82,6 +83,16 @@ function handleMissionControl()
 	myo.keyboard("up_arrow", "press", "control")
 end
 
+function handleMouseControl()
+	myo.debug("Handling mouse control gesture")
+
+	if myo.mouseControlEnabled() then
+		myo.mouse("left", "click")
+	end
+
+	myo.controlMouse(not myo.mouseControlEnabled())
+end
+
 function onPoseEdge(pose, edge)
 	if edge == "off" then
 		return
@@ -101,13 +112,15 @@ function onPoseEdge(pose, edge)
 		handleSwitchSpaceLeft()
 	elseif pose == missionControlGesture then
 		handleMissionControl()
+	elseif pose == mouseControlGesture then
+		handleMouseControl()
 	end
 end
 
 -- Handling timing
 
 function onPeriodic()
-	if not isLocked then
+	if not isLocked and not myo.mouseControlEnabled() then
 		if myo.getTimeMilliseconds() - lastUnlockTime > UNLOCK_TIMEOUT then
 			myo.debug("Unlock timed out")
 			isLocked = true
