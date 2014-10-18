@@ -24,12 +24,13 @@ end
 -- Locking state
 isLocked = true
 lastUnlockTime = 0
-UNLOCK_TIMEOUT = 2500
+UNLOCK_TIMEOUT = 1250
 unlockGesture = "thumbToPinky"
 
 -- Control gestures
 switchSpaceRightGesture = "waveOut"
 switchSpaceLeftGesture = "waveIn"
+missionControlGesture = "fingersSpread"
 
 function onActiveChange(isActive)
 	if isActive then
@@ -51,6 +52,12 @@ function handleUnlock()
 	myo.debug("Handling unlock gesture")
 
 	extendUnlock()
+
+	-- Quick vibration if it went from locked to unlocked
+	if isLocked then
+		myo.vibrate("short")
+	end
+
 	isLocked = false
 end
 
@@ -66,6 +73,13 @@ function handleSwitchSpaceLeft()
 
 	extendUnlock()
 	myo.keyboard("left_arrow", "press", "control")
+end
+
+function handleMissionControl()
+	myo.debug("Handling mission control gesture")
+
+	extendUnlock()
+	myo.keyboard("up_arrow", "press", "control")
 end
 
 function onPoseEdge(pose, edge)
@@ -85,6 +99,8 @@ function onPoseEdge(pose, edge)
 		handleSwitchSpaceRight()
 	elseif pose == switchSpaceLeftGesture then
 		handleSwitchSpaceLeft()
+	elseif pose == missionControlGesture then
+		handleMissionControl()
 	end
 end
 
