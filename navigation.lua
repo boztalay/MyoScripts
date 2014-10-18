@@ -50,7 +50,7 @@ function extendUnlock()
 end
 
 function handleUnlock()
-	myo.debug("Handling unlock gesture")
+	--myo.debug("Handling unlock gesture")
 
 	extendUnlock()
 
@@ -63,28 +63,28 @@ function handleUnlock()
 end
 
 function handleSwitchSpaceRight()
-	myo.debug("Handling switch space right gesture")
+	--myo.debug("Handling switch space right gesture")
 
 	extendUnlock()
 	myo.keyboard("right_arrow", "press", "control")
 end
 
 function handleSwitchSpaceLeft()
-	myo.debug("Handling switch space left gesture")
+	--myo.debug("Handling switch space left gesture")
 
 	extendUnlock()
 	myo.keyboard("left_arrow", "press", "control")
 end
 
 function handleMissionControl()
-	myo.debug("Handling mission control gesture")
+	--myo.debug("Handling mission control gesture")
 
 	extendUnlock()
 	myo.keyboard("up_arrow", "press", "control")
 end
 
 function handleMouseControl()
-	myo.debug("Handling mouse control gesture")
+	--myo.debug("Handling mouse control gesture")
 
 	if myo.mouseControlEnabled() then
 		myo.mouse("left", "click")
@@ -122,7 +122,7 @@ end
 function onPeriodic()
 	if not isLocked and not myo.mouseControlEnabled() then
 		if myo.getTimeMilliseconds() - lastUnlockTime > UNLOCK_TIMEOUT then
-			myo.debug("Unlock timed out")
+			--myo.debug("Unlock timed out")
 			isLocked = true
 		end
 	end
