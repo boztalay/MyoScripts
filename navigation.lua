@@ -124,6 +124,7 @@ function onPeriodic()
 		if myo.getTimeMilliseconds() - lastUnlockTime > UNLOCK_TIMEOUT then
 			--myo.debug("Unlock timed out")
 			isLocked = true
+			myo.vibrate("short")
 		end
 	end
 end
